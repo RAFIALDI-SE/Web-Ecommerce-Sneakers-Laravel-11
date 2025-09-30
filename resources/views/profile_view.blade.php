@@ -22,7 +22,8 @@
       border-radius: 16px;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
       padding: 2rem 2.5rem;
-      max-width: 600px;
+
+      max-width: 700px;
       width: 100%;
     }
 
@@ -38,8 +39,22 @@
     }
 
     .form-label {
-      margin-top: 1rem;
+      margin-top: 0.5rem;
       font-weight: 500;
+    }
+
+
+    .row .mb-3 {
+        margin-bottom: 1rem !important;
+    }
+
+
+    .radio-group-wrapper {
+      padding-top: 0.2rem;
+    }
+    .radio-group-wrapper label:not(.form-label) {
+        margin-right: 15px;
+        font-weight: 400;
     }
 
     .form-control {
@@ -86,37 +101,63 @@
     </div>
 
     <form action="{{ route('edit_profile') }}" method="post" enctype="multipart/form-data">
-      @csrf
+        @csrf
 
-      <div class="mb-3">
-        <label for="name" class="form-label">Nama</label>
-        <input type="text" name="name" id="name" value="{{ old('name', $user->name) }}" class="form-control" required>
-      </div>
+        <div class="row">
 
-      <div class="mb-3">
-        <label for="password" class="form-label">Kata Sandi Baru</label>
-        <input type="password" name="password" id="password" class="form-control">
-        <small class="text-muted">Kosongkan jika tidak ingin mengganti password.</small>
-      </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Nama</label>
+                    <input type="text" name="name" id="name" value="{{ old('name', $user->name) }}" class="form-control" required>
+                </div>
 
-      <div class="mb-3">
-        <label for="password_confirmation" class="form-label">Konfirmasi Kata Sandi</label>
-        <input type="password" name="password_confirmation" id="password_confirmation" class="form-control">
-      </div>
+                <div class="mb-3">
+                    <label for="no_telpon" class="form-label">No. Telepon</label>
+                    <input type="text" name="no_telpon" id="no_telpon" value="{{ old('no_telpon', $user->no_telpon) }}" class="form-control" required>
+                </div>
 
-      <div class="mb-3">
-        <label for="image" class="form-label">Foto Profil</label>
-        <input type="file" name="image" id="image" class="form-control">
-        <small class="text-muted">Upload foto baru jika ingin mengganti.</small>
-      </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Kata Sandi Baru</label>
+                    <input type="password" name="password" id="password" class="form-control">
+                    <small class="text-muted">Kosongkan jika tidak ingin mengganti password.</small>
+                </div>
+            </div>
 
-      <button type="submit" class="btn btn-primary w-100">Simpan Perubahan</button>
-    </form>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="form-label">Jenis Kelamin</label>
+                    <div class="radio-group-wrapper">
+                        <input type="radio" id="laki" name="jenis_kelamin" value="Laki-laki"
+                            {{ old('jenis_kelamin', $user->jenis_kelamin) == 'Laki-laki' ? 'checked' : '' }}>
+                        <label for="laki">Laki-laki</label>
+
+                        <input type="radio" id="perempuan" name="jenis_kelamin" value="Perempuan"
+                            {{ old('jenis_kelamin', $user->jenis_kelamin) == 'Perempuan' ? 'checked' : '' }}>
+                        <label for="perempuan">Perempuan</label>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="password_confirmation" class="form-label">Konfirmasi Kata Sandi</label>
+                    <input type="password" name="password_confirmation" id="password_confirmation" class="form-control">
+                </div>
+
+                <div class="mb-3">
+                    <label for="image" class="form-label">Foto Profil</label>
+                    <input type="file" name="image" id="image" class="form-control">
+                    <small class="text-muted">Upload foto baru jika ingin mengganti.</small>
+                </div>
+            </div>
+
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Simpan Perubahan</button>
+      </form>
 
     <div class="text-center mt-4">
       <a href="{{ route('home') }}" class="btn btn-outline-primary">Kembali ke Beranda</a>
     </div>
   </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

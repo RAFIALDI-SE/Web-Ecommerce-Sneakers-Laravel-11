@@ -18,10 +18,12 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'name'     => 'required|string|max:255',
-            'email'    => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
-            'image'    => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'name'           => 'required|string|max:255',
+            'email'          => 'required|string|email|max:255|unique:users',
+            'password'       => 'required|string|min:6|confirmed',
+            'no_telpon'      => 'required|string|max:20',
+            'jenis_kelamin'  => 'required|in:Laki-laki,Perempuan',
+            'image'          => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $imagePath = null;
@@ -30,16 +32,19 @@ class AuthController extends Controller
         }
 
         $user = User::create([
-            'name'     => $request->name,
-            'email'    => $request->email,
-            'password' => Hash::make($request->password),
-            'image'    => $imagePath,
+            'name'          => $request->name,
+            'email'         => $request->email,
+            'password'      => Hash::make($request->password),
+            'no_telpon'     => $request->no_telpon,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'image'         => $imagePath,
         ]);
 
         Auth::login($user);
 
         return redirect()->route('home')->with('success', 'Registrasi berhasil, selamat datang!');
     }
+
 
 
     public function showLoginForm()

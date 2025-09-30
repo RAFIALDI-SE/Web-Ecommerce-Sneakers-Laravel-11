@@ -22,30 +22,28 @@ class ProfileController extends Controller
     public function edit_profile(Request $request)
     {
         $request->validate([
-            'name'     => 'required|string|max:255',
-            'password' => 'nullable|min:8|confirmed',
-            'image'    => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'name'           => 'required|string|max:255',
+            'no_telpon'      => 'required|string|max:20',
+            'jenis_kelamin'  => 'required|in:Laki-laki,Perempuan',
+            'password'       => 'nullable|min:8|confirmed',
+            'image'          => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         /** @var \App\Models\User $user */
         $user = Auth::user();
 
-
-        $user->name = $request->name;
-
+        $user->name          = $request->name;
+        $user->no_telpon     = $request->no_telpon;
+        $user->jenis_kelamin = $request->jenis_kelamin;
 
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
         }
 
-
         if ($request->hasFile('image')) {
-
             if ($user->image && Storage::disk('public')->exists($user->image)) {
                 Storage::disk('public')->delete($user->image);
             }
-
-
             $path = $request->file('image')->store('users', 'public');
             $user->image = $path;
         }
@@ -54,4 +52,5 @@ class ProfileController extends Controller
 
         return Redirect::back()->with('success', 'Profil berhasil diperbarui!');
     }
+
 }
