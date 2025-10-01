@@ -57,7 +57,7 @@ class AuthController extends Controller
     {
         $credentials = $request->validate([
             'email'    => 'required|email',
-            'password' => 'required|string',
+            'password' => 'required|string|min:6',
         ]);
 
         if (Auth::attempt($credentials, $request->filled('remember'))) {
@@ -72,8 +72,9 @@ class AuthController extends Controller
         }
 
         return back()->withErrors([
-            'email' => 'Email atau password salah.',
-        ])->onlyInput('email');
+            "email" => "email atau pasword salah",
+            "password" => "email atau pasword salah",
+        ]);
     }
 
 

@@ -3,7 +3,7 @@
 @extends('template')
 
 @section('content')
-  
+
  <link rel="stylesheet" href="{{ url('css/login.css') }}">
   <div class="container">
     <a href="{{ url('/') }}" class="back-arrow">&#8592; Kembali</a>
@@ -12,10 +12,16 @@
     <form method="POST" action="{{ route('login') }}">
       @csrf
       <label for="email">Email</label>
-      <input type="email" name="email" id="email" placeholder="Masukkan email" required value="{{ old('email') }}" />
+      <input type="email" name="email" id="email" placeholder="Masukkan email"  value="{{ old('email') }}" class="@error ("email") border border-danger @enderror" />
+      @error('email')
+                    <div class="error">{{ $message }}</div>
+      @enderror
 
       <label for="password">Password</label>
-      <input type="password" name="password" id="password" placeholder="Masukkan password" required />
+      <input type="password" name="password" id="password" placeholder="Masukkan password" class="@error ("password") border border-danger @enderror" />
+      @error('password')
+                    <div class="error">{{ $message }}</div>
+      @enderror
 
       <button type="submit">Masuk</button>
     </form>

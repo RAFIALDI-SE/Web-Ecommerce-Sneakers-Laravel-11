@@ -55,3 +55,13 @@ button:hover {
     color: #333;
     font-size: 18px;
 }
+
+.error {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+
+/* .col-50 .error {
+    margin-top: -5px;
+} */
