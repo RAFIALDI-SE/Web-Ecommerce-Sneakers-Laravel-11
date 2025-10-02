@@ -28,7 +28,8 @@
             padding: 30px;
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
+
+            max-width: 800px;
             margin: auto;
         }
 
@@ -37,11 +38,13 @@
             font-weight: bold;
         }
 
+
         input[type="text"],
         input[type="date"],
         input[type="number"],
         input[type="file"],
-        textarea {
+        textarea,
+        select.form-control {
             width: 100%;
             padding: 12px;
             margin-top: 8px;
@@ -70,43 +73,67 @@
         button:hover {
             background-color: #16a085;
         }
-
-        .form-header {
-            margin-bottom: 30px;
-            text-align: center;
-        }
     </style>
 </head>
 <body>
 
     <div class="form-container">
-        <h2><i data-feather="box"></i>  Tambah Data Product</h2>
+        <h2><i data-feather="box"></i> Tambah Data Product</h2>
 
         <form action="{{route('add_product')}}" method="post" enctype="multipart/form-data">
             @csrf
-            <div class="mb-3">
-                <label for="name">Nama:</label>
-                <input type="text" name="name" id="name" class="form-control" required>
-            </div>
 
-            <div class="mb-3">
-                <label for="price">Harga:</label>
-                <input type="number" name="price" id="price" class="form-control" required>
+
+            <div class="row">
+
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="name">Nama:</label>
+                        <input type="text" name="name" id="name" class="form-control" required>
+                        @error('name') <div class="text-danger">{{ $message }}</div> @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="price">Harga:</label>
+                        <input type="number" name="price" id="price" class="form-control" required>
+                        @error('price') <div class="text-danger">{{ $message }}</div> @enderror
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label for="category_id">Kategori:</label>
+
+                        <select name="category_id" id="category_id" class="form-control" required>
+                            <option value="">Pilih Kategori</option>
+
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('category_id') <div class="text-danger">{{ $message }}</div> @enderror
+                    </div>
+                </div>
+
+
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="stock">Kuantitas (Stok):</label>
+                        <input type="number" name="stock" id="stock" class="form-control" required>
+                        @error('stock') <div class="text-danger">{{ $message }}</div> @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="image">Gambar:</label>
+                        <input type="file" name="image" id="image" class="form-control" required>
+                        @error('image') <div class="text-danger">{{ $message }}</div> @enderror
+                    </div>
+                </div>
             </div>
 
             <div class="mb-3">
                 <label for="description">Deskripsi:</label>
-                <textarea name="description" id="description" class="form-control" rows="6" required></textarea>
-            </div>
-
-            <div class="mb-3">
-                <label for="stock">Quantiti:</label>
-                <input type="number" name="stock" id="stock" class="form-control" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="image">Gambar:</label>
-                <input type="file" name="image" id="image" class="form-control" required>
+                <textarea name="description" id="description" class="form-control" rows="4" required></textarea>
+                @error('description') <div class="text-danger">{{ $message }}</div> @enderror
             </div>
 
             <button type="submit">Tambah Product</button>
@@ -114,7 +141,7 @@
     </div>
 
     <script>
-        feather.replace();  
+        feather.replace();  
     </script>
 
 

@@ -28,7 +28,8 @@
             padding: 30px;
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
+            /* Lebar diperbesar untuk layout 2 kolom */
+            max-width: 800px;
             margin: auto;
         }
 
@@ -37,11 +38,13 @@
             font-weight: bold;
         }
 
+        /* Menambahkan selector untuk <select> */
         input[type="text"],
         input[type="date"],
         input[type="number"],
         input[type="file"],
-        textarea {
+        textarea,
+        select.form-control { /* Ditambahkan untuk select */
             width: 100%;
             padding: 12px;
             margin-top: 8px;
@@ -52,6 +55,15 @@
 
         textarea {
             resize: vertical;
+        }
+
+        /* Gambar produk yang sedang diedit */
+        .current-image {
+            display: block;
+            margin-top: 10px;
+            border-radius: 8px;
+            border: 1px solid #bdc3c7;
+            padding: 5px;
         }
 
         button {
@@ -70,52 +82,82 @@
         button:hover {
             background-color: #16a085;
         }
-
-        .form-header {
-            margin-bottom: 30px;
-            text-align: center;
-        }
     </style>
 </head>
 <body>
 
     <div class="form-container">
-        <h2><i data-feather="box"></i>  Edit Data Product</h2>
+        <h2><i data-feather="edit"></i> Edit Data Product</h2>
 
         <form action="{{route('edit_data', $products->id)}}" method="post" enctype="multipart/form-data">
             @csrf
-            <div class="mb-3">
-                <label for="name">Nama:</label>
-                <input type="text" name="name" id="name" class="form-control" value="{{$products->name}}" required>
-            </div>
 
-            <div class="mb-3">
-                <label for="price">Harga:</label>
-                <input type="number" name="price" id="price" class="form-control" value="{{$products->price}}" required>
+            @method('PATCH')
+
+
+            <div class="row">
+
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="name">Nama:</label>
+                        <input type="text" name="name" id="name" class="form-control" value="{{ old('name', $products->name) }}" required>
+                        @error('name') <div class="text-danger">{{ $message }}</div> @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="price">Harga:</label>
+                        <input type="number" name="price" id="price" class="form-control" value="{{ old('price', $products->price) }}" required>
+                        @error('price') <div class="text-danger">{{ $message }}</div> @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="category_id">Kategori:</label>
+                        <select name="category_id" id="category_id" class="form-control" required>
+                            <option value="">Pilih Kategori</option>
+
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}"
+                                    {{ old('category_id', $products->category_id) == $category->id ? 'selected' : '' }}>
+                                    {{ $category->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('category_id') <div class="text-danger">{{ $message }}</div> @enderror
+                    </div>
+                </div>
+
+
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="stock">Kuantitas (Stok):</label>
+                        <input type="number" name="stock" id="stock" class="form-control" value="{{ old('stock', $products->stock) }}" required>
+                        @error('stock') <div class="text-danger">{{ $message }}</div> @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="image">Gambar (upload baru jika ingin mengganti):</label>
+                        <input type="file" name="image" id="image" class="form-control">
+                        @error('image') <div class="text-danger">{{ $message }}</div> @enderror
+
+
+                        <label class="mt-3">Gambar Saat Ini:</label>
+                        <img src="/gambar/{{$products->image}}" alt="Product Image" class="current-image" width="100%">
+                    </div>
+                </div>
             </div>
 
             <div class="mb-3">
                 <label for="description">Deskripsi:</label>
-                <textarea name="description" id="description" class="form-control" rows="6" required>{{$products->description}}</textarea>
+                <textarea name="description" id="description" class="form-control" rows="4" required>{{ old('description', $products->description) }}</textarea>
+                @error('description') <div class="text-danger">{{ $message }}</div> @enderror
             </div>
 
-            <div class="mb-3">
-                <label for="stock">Quantiti:</label>
-                <input type="number" name="stock" id="stock" class="form-control" value="{{$products->stock}}" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="image">Gambar (upload baru jika ingin mengganti):</label>
-                <input type="file" name="image" id="image">
-                <img src="/gambar/{{$products->image}}" alt="Product Image" width="200px">
-            </div>
-
-            <button type="submit">Edit Product</button>
+            <button type="submit">Update Product</button>
         </form>
     </div>
 
     <script>
-        feather.replace();  
+        feather.replace();  
     </script>
 
 

@@ -83,6 +83,12 @@
         <nav class="col-md-3 col-lg-2 d-md-block sidebar">
             <div class="position-sticky">
                 <h4><i data-feather="settings"></i> Admin Panel</h4>
+                <a href="{{route('category_create')}}" target="mainFrame">
+                    <i data-feather="plus-square"></i> Tambah Kategori
+                </a>
+                <a href="{{route('category_view')}}" target="mainFrame">
+                    <i data-feather="codepen"></i> Daftar Kategori
+                </a>
                 <a href="{{route('create_view')}}" target="mainFrame">
                     <i data-feather="plus-circle"></i> Tambah Produk
                 </a>
@@ -122,7 +128,7 @@
 
 
 <script>
-    feather.replace();  
+    feather.replace();
 </script>
 
 

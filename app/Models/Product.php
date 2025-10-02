@@ -15,8 +15,15 @@ class Product extends Model
         'price',
         'description',
         'stock',
-        'image'
+        'image',
+        'category_id',
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
 
     public function transactions(){
         return $this->hasMany(Transaction::class);
