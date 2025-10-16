@@ -20,6 +20,12 @@
 
   </head>
   <body>
+    @if (session('success'))
+        <script>
+            alert("{{ session('success') }}");
+        </script>
+    @endif
+
     <header>
         <nav class="me-navbar">
           <a href="#" class="me-navbar-logo">SneakersHeaven</a>
